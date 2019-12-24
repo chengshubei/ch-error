@@ -10,6 +10,42 @@ class BaseError extends Error {
     }
 }
 
+class ValidateError extends BaseError {
+    constructor(message) {
+        super(400, 'ValidateError', message || '验证不通过', 'Validate Failed');
+    }
+}
+
+class ForbiddenError extends BaseError {
+    constructor(message) {
+        super(403, 'ForbiddenError', message || '无权限访问', 'Forbidden');
+    }
+}
+
+class NotFoundError extends BaseError {
+    constructor() {
+        super(404, 'NotFoundError', '请求资源未找到', 'Not Found');
+    }
+}
+
+class SystemError extends BaseError {
+    constructor(error) {
+        super(500, 'SystemError', '服务器内部错误', error || 'System Error', 'Internal Server Error');
+    }
+}
+
+class UnavailableError extends BaseError {
+    constructor() {
+        super(501, 'UnavailableError', '服务未开放', 'Not Implemented');
+    }
+}
+
+class MaintainError extends BaseError {
+    constructor() {
+        super(503, 'MaintainError', '系统维护中', 'Service Unavailable');
+    }
+}
+
 class AppError extends BaseError {
     constructor(code, message, error, data) {
         super(code, 'AppError', message, error);
@@ -17,64 +53,13 @@ class AppError extends BaseError {
     }
 }
 
-class SystemError extends BaseError {
-    constructor(error) {
-        super(-1, 'SystemError', '服务器系统错误', error || 'System Error');
-        Error.captureStackTrace(this, this.constructor);
-    }
-}
-
-class DatabaseError extends BaseError {
-    constructor(error) {
-        super(-2, 'DatabaseError', '数据库操作失败', error || 'Database Error');
-    }
-}
-
-class CacheError extends BaseError {
-    constructor(error) {
-        super(-3, 'CacheError', '缓存操作失败', error || 'Cache Error');
-    }
-}
-
-class ValidateError extends BaseError {
-    constructor(message) {
-        super(-4, 'ValidateError', message || '验证失败');
-    }
-}
-
-class ForbiddenError extends BaseError {
-    constructor(message) {
-        super(403, 'ForbiddenError', message || '无权限访问');
-    }
-}
-
-class NotFoundError extends BaseError {
-    constructor() {
-        super(404, 'NotFoundError', '请求资源未找到');
-    }
-}
-
-class UnavailableError extends BaseError {
-    constructor() {
-        super(501, 'UnavailableError', '服务未开放');
-    }
-}
-
-class MaintainError extends BaseError {
-    constructor() {
-        super(503, 'MaintainError', '系统维护中');
-    }
-}
-
 module.exports = {
     BaseError,
-    AppError,
-    SystemError,
     ValidateError,
-    DatabaseError,
-    CacheError,
     ForbiddenError,
     NotFoundError,
+    SystemError,
     UnavailableError,
-    MaintainError
+    MaintainError,
+    AppError
 };
